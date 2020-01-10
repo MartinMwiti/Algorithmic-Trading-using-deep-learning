@@ -7,6 +7,10 @@ import pandas as pd
 import pandas_datareader.data as web
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
+import bs4 as bs
+import pickle
+import requests
+import os
 
 
 style.use('ggplot')
@@ -45,13 +49,16 @@ ax1 = plt.subplot2grid((6, 1), (0, 0), rowspan=5, colspan=1)
 ax2 = plt.subplot2grid((6, 1), (5, 0), rowspan=5, colspan=1, sharex=ax1)
 ax1.xaxis_date()
 
-# PLOT 1 - MA100,Adj_close_price&Vol_chart
-# ax1.plot(df.index, df['Adj Close'])#df.index-plot date
-# ax1.plot(df.index, df['100ma'])
-# ax2.bar(df.index, df['Volume'])
+PLOT 1 - MA100,Adj_close_price&Vol_chart
+ax1.plot(df.index, df['Adj Close'])#df.index-plot date
+ax1.plot(df.index, df['100ma'])
+ax2.bar(df.index, df['Volume'])
 
-# PLOT 2 - candlestick_price_movement_graph
-# candlestick_ohlc(ax1, df_ohlc.values, width=2, colorup='g')
-# ax2.fill_between(df_volume.index.map(mdates.date2num),
-#                  df_volume.values, 0)  # fill y-values(df_volume.values) from 0 to that y-value. fill_between fills entire color within the bad plot
-# plt.show()
+PLOT 2 - candlestick_price_movement_graph
+candlestick_ohlc(ax1, df_ohlc.values, width=2, colorup='g')
+ax2.fill_between(df_volume.index.map(mdates.date2num),
+                 df_volume.values, 0)  # fill y-values(df_volume.values) from 0 to that y-value. fill_between fills entire color within the bad plot
+plt.show()
+
+
+
