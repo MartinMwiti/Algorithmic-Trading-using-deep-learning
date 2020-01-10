@@ -22,6 +22,7 @@ def save_sp500_tickers():
     table = soup.find('table', {'class': 'wikitable sortable'})
     tickers = []
     for row in table.findAll('tr')[1:]:
+        # strip() in-built function of Python is used to remove all the leading and trailing spaces from a string.
         ticker = row.findAll('td')[0].text.strip()
         tickers.append(ticker)
 
@@ -47,17 +48,24 @@ def get_data_from_yahoo(reload_sp500=False):
         os.makedirs('stocks_dfs')
 
     start = dt.datetime(2000, 1, 1)
-    end = dt.datetime(2019, 12, 31)
-
+    end = dt.datetime.now()
     # for ticker in tickers[:500]: in case you want 500 tickers
-    for ticker in tickers[0:10]:  # this gets 500 tickers
+    df = pd.DataFrame
+    for ticker in tickers:  # this gets 500 tickers
         print(ticker)
 
         if not os.path.exists('stocks_dfs/{}.csv'.format(ticker)):  # check for csv file
-            df = web.DataReader(ticker, 'yahoo', start, end)
-            df.to_csv('stocks_dfs/{}.csv'.format(ticker))
+            try:
+                df = web.DataReader(ticker, 'yahoo', start, end)
+                df.to_csv('stocks_dfs/{}.csv'.format(ticker))
+            except:
+                tickers.remove(ticker)
 
         else:
             print('Already have {}'.format(ticker))
 
 get_data_from_yahoo()
+
+# for ticker in tickers:
+#     if not os.path.exists('stocks_dfs/{}.csv'.format(ticker)):
+#         print(ticker)
