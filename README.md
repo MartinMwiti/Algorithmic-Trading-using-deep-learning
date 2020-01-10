@@ -7,6 +7,7 @@
 3. ```pip install numpy```
 4. ```pip install pandas_datareader```
 5. ```pip install mpl_finance```
+6. ```pip install BeautifulSoup4```
 
 ## Charts
 ### 1. Finance Algo with Machine Learning.
