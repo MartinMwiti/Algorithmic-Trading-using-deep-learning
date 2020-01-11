@@ -13,7 +13,7 @@ from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
 
-#Getting the s&p 500 list using Beautifulsoup
+# Getting the s&p 500 list using Beautifulsoup
 def save_sp500_tickers():
     resp = requests.get(
         'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
@@ -33,7 +33,7 @@ def save_sp500_tickers():
 
     return tickers
 
-#save_sp500_tickers()
+# save_sp500_tickers()
 
 
 def get_data_from_yahoo(reload_sp500=False):
@@ -64,8 +64,41 @@ def get_data_from_yahoo(reload_sp500=False):
         else:
             print('Already have {}'.format(ticker))
 
-get_data_from_yahoo()
+# get_data_from_yahoo()
 
+
+'''Check for any ticker data not downloaded'''
 # for ticker in tickers:
 #     if not os.path.exists('stocks_dfs/{}.csv'.format(ticker)):
 #         print(ticker)
+
+# COMPILE ALL INDIVIDUAL STOCKS INTO ONE DATAFRAME
+
+
+def compile_data():
+    with open('sp500tickers.pickle', 'rb') as f:
+        tickers = pickle.load(f)
+
+        main_df = pd.DataFrame()
+        
+        for count, ticker in enumerate(tickers):
+            if not os.path.exists('stocks_dfs/{}.csv'.format(ticker)): #skip any tickers not found in our stored directory
+                continue
+
+            df = pd.read_csv('stocks_dfs/{}.csv'.format(ticker.replace('.', '-')))
+            df.set_index('Date', inplace=True)
+
+            df.rename(columns={'Adj Close': ticker}, inplace=True)
+            df.drop(['Open', 'High', 'Low', 'Close', 'Volume'], 1, inplace=True)
+
+            if __name__==df.empty:
+                main_df = df
+            else:
+                main_df = main_df.join(df, how='outer')
+
+            if count % 10 == 0:
+                print(count)
+        print(main_df.head())
+        main_df.to_csv('sp500_joined_Adj_closes.csv')
+
+compile_data()
