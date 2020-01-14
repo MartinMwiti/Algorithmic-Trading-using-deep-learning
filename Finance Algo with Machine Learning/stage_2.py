@@ -7,13 +7,14 @@ import matplotlib.pyplot as plt
 from matplotlib import style
 from mpl_finance import candlestick_ohlc
 import matplotlib.dates as mdates
+import numpy as np
 import pandas as pd
 import pandas_datareader.data as web
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
 
-# Getting the s&p 500 list using Beautifulsoup
+# Scraping the s&p 500 ticker name using Beautifulsoup
 def save_sp500_tickers():
     resp = requests.get(
         'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
@@ -101,4 +102,37 @@ def compile_data():
         print(main_df.head())
         main_df.to_csv('sp500_joined_Adj_closes.csv')
 
-compile_data()
+# compile_data()
+
+
+#CORRELATION TABLE
+def visualize_data():
+    df = pd.read_csv('sp500_joined_Adj_closes.csv')
+    # df['AAPL'].plot()
+    # plt.show()
+    df_corr = df.corr()  # correlation table
+    print(df_corr.head())
+
+    data = df_corr.values #numpy array of columns and rows
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1) #last number=plot number 1
+
+    heatmap = ax.pcolor(data, cmap=plt.cm.RdYlGn) #Red, Yellow, Green(RGB)
+    fig.colorbar(heatmap)
+    ax.set_xticks(np.arange(data.shape[0]) + 0.5, minor=False)
+    ax.set_yticks(np.arange(data.shape[1]) + 0.5, minor=False)
+    ax.invert_yaxis()
+    ax.xaxis.tick_top() #places the ticks(tickers) labels at the bottom compared to the dafault bottom
+
+    column_labels = df_corr.columns
+    row_labels = df_corr.index
+
+    ax.set_xticklabels(column_labels)
+    ax.set_yticklabels(row_labels)
+    plt.xticks(rotation=90)
+    heatmap.set_clim(-1,1) #color limit-max(-1)=negative corr to min(1)=positive corr
+    plt.tight_layout()
+    plt.show()
+
+
+visualize_data()
