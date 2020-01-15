@@ -28,3 +28,8 @@
 ## Files
 * [stocks_dfs](https://github.com/MartinMwiti/Algorithmic-Trading-using-deep-learning/tree/master/Finance%20Algo%20with%20Machine%20Learning/stocks_dfs) : contains stock data for all individual s&p500 companies since 2000.
 * [sp500_joined_Adj_closes.csv](https://github.com/MartinMwiti/Algorithmic-Trading-using-deep-learning/blob/master/Finance%20Algo%20with%20Machine%20Learning/sp500_joined_Adj_closes.csv) : containes merged Adjusted Close stock data for all s&p500 companies since 2000.
+
+---
+### 2. Finance Algo with Deep Learning.
+#### Code with charts
+* [v6.ipynb](https://github.com/MartinMwiti/Algorithmic-Trading-using-deep-learning/blob/master/Finance%20Algo%20with%20Deep%20Learning/v6.ipynb) : contains the updated code version with the relevant charts and stock prediction using Recurrent Neural Network(RNN)-LSTM.
